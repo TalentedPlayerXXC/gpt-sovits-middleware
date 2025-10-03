@@ -1,4 +1,8 @@
 {
+  "name": "my-express-app",
+  "version": "1.0.0",
+  "description": "A simple Express.js application",
+  "type":"module",
   "dependencies": {
     "express": "^5.1.0",
     "nodemon": "^3.1.10"
