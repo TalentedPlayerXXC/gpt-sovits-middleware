@@ -9,7 +9,6 @@ lerna-debug.log*
 
 node_modules
 audio/*
-!audio/.gitkeep
 dist
 dist-ssr
 *.local
