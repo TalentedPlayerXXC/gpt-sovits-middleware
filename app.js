@@ -16,10 +16,10 @@ import { saveBase64AsWav, readFileList } from './untils/util.js'
 const app = express()
 const port = 3001
 app.use(express.json({ limit: '5mb' })) // 最大请求体大小为5MB
-app.get('/', (req, res) => {
-    res.send(__dirname)
-}
-)
+// app.get('/', (req, res) => {
+//     res.send(__dirname)
+// }
+// )
 // 获取模型列表
 app.get('/getModels', async (req, res) => {
     let list = await readFileList(`${__dirname}/audio`)

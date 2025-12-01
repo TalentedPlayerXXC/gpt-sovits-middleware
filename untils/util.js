@@ -13,7 +13,7 @@ function getFilePath() {
 
 // 音频格式正则校验
 function isAudioFormat(fileName) {
-    const fileNameReg = /\.(wav|WAV|mp3|MP3)$/i
+    const fileNameReg = /\.(wav|WAV|mp3|MP3)$/i 
     return fileNameReg.test(fileName)
 }
 
@@ -32,7 +32,7 @@ function saveBase64AsWav(base64String, outputFileName) {
     if (isAudioFormat(outputFileName)) {
         const parentDir = resolve(__dirname, '..');
         const filePath = join(`${parentDir}`, 'audio', outputFileName);
-        console.log(filePath, 'filePath');
+        // console.log(filePath, 'filePath');
         fs.writeFileSync(`${filePath}`, audioBuffer);
         return filePath
         // return false
