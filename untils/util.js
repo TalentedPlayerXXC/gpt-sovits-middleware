@@ -10,10 +10,15 @@ function getFilePath() {
     const parentDir = resolve(__dirname, '..'); // 获取根目录
     return { __dirname, parentDir }
 }
+async function getMogoDBConfig() {
+    const data = await fs.readFileSync('./encryption.json', 'utf-8');
+    const config = JSON.parse(data);
+    return config.mongodb;
+}
 
 // 音频格式正则校验
 function isAudioFormat(fileName) {
-    const fileNameReg = /\.(wav|WAV|mp3|MP3)$/i 
+    const fileNameReg = /\.(wav|WAV|mp3|MP3)$/i
     return fileNameReg.test(fileName)
 }
 
@@ -89,5 +94,6 @@ export {
     isAudioFormat,
     saveBase64AsWav,
     readFileList,
-    getFilePath
+    getFilePath,
+    getMogoDBConfig
 }

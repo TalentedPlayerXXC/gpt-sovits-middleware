@@ -1,0 +1,9 @@
+{
+    "mongodb":{
+    "description":"MongoDB Node.js Driver",
+    "url":"https://www.npmjs.com/package/mongodb",
+    "mogoUser":"",
+    "mongoPwd":"",
+    "appName":""
+  }
+}

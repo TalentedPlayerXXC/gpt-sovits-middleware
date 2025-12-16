@@ -1,10 +1,16 @@
 {
-  "name": "my-express-app",
+  "name": "gpt-sovts-middleware",
   "version": "1.0.0",
-  "description": "A simple Express.js application",
-  "type":"module",
+  "description": "GPT-Sovts-Middleware is a middleware application for GPT-Sovts",
+  "type": "module",
   "dependencies": {
+    "ali-oss": "^6.23.0",
+    "async": "^3.2.6",
+    "axios": "^1.13.2",
+    "base-64": "^1.0.0",
     "express": "^5.1.0",
+    "mime-types": "^3.0.2",
+    "mongodb": "^7.0.0",
     "nodemon": "^3.1.10"
   },
   "scripts": {
