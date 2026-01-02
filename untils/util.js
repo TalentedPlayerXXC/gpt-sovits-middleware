@@ -15,7 +15,73 @@ async function getMogoDBConfig() {
     const config = JSON.parse(data);
     return config.mongodb;
 }
+async function getAliyunOSSConfig() {
+    const data = await fs.readFileSync('./encryption.json', 'utf-8');
+    const config = JSON.parse(data);
+    return config.aliyunOSS;
+}
 
+// 文件树形结构
+// 鸣潮/「角」/中文/【中立_neutral】我的能力转移、我的生、我的死，皆要御者予以准许。.wav
+function generateFileTree(fileList) {
+    const tree = [];
+
+    fileList.forEach(file => {
+        const pathParts = file.name.split('/');
+        let currentLevel = tree;
+        pathParts.forEach((part, index) => {
+            let existingPath = currentLevel.find(item => item.name === part);
+            if (!existingPath) {
+                existingPath = {
+                    name: part === '中文' ? 'Chinese' : part,
+                };
+                if (index === pathParts.length - 1) {
+                    // 最后一个部分，添加文件属性
+                    existingPath.url = file.url;
+                    existingPath.lastModified = file.lastModified;
+                    existingPath.etag = file.etag;
+                    existingPath.type = file.type;
+                    existingPath.size = file.size;
+                    existingPath.storageClass = file.storageClass;
+                    existingPath.owner = file.owner;
+                    // 解析标签和文本 tagCN，tagEN 和 text
+                    existingPath.tagCN = part.match(/【(.*?)】/g) ? part.match(/【(.*?)】/g)[0].replace(/【|】/g, '').split('_')[0] : '';
+                    existingPath.tagEN = part.match(/【(.*?)】/g) ? part.match(/【(.*?)】/g)[0].replace(/【|】/g, '').split('_')[1] : '';
+                    existingPath.text = part.replace(/【(.*?)】/g, '').replace(/_/g, '').replace(/\.wav|\.WAV|\.mp3|\.MP3/g, '');
+                }
+                currentLevel.push(existingPath);
+            }
+            if (!existingPath.children) {
+                existingPath.children = [];
+            }
+            currentLevel = existingPath.children;
+        }
+        );
+    });
+
+    return tree;
+
+}
+// 时间处理 精确到时分秒
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+// 返回当前时间戳
+function getCurrentTimestamp(type = 'milliseconds') {
+    // 标准时间戳 毫秒级别
+    if (type === 'milliseconds') {
+        return Date.now();
+    }
+    // 秒级别
+    return Math.floor(Date.now() / 1000);
+}
 // 音频格式正则校验
 function isAudioFormat(fileName) {
     const fileNameReg = /\.(wav|WAV|mp3|MP3)$/i
@@ -95,5 +161,9 @@ export {
     saveBase64AsWav,
     readFileList,
     getFilePath,
-    getMogoDBConfig
+    getMogoDBConfig,
+    getAliyunOSSConfig,
+    generateFileTree,
+    formatDate,
+    getCurrentTimestamp,
 }

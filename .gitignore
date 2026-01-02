@@ -13,6 +13,7 @@ audio/*
 dist
 dist-ssr
 *.local
+encryption.json
 
 # Editor directories and files
 .vscode/*
